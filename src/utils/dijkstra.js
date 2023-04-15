@@ -11,7 +11,7 @@ export default function dijkstra(totalTargets, start, grid, updateGrid){
     
     distance[start.row][start.col] = 0;
     queue.push(start);
-    const intervalLen = 20;
+    const intervalLen = 10;
     let i = 0;
     let end = start;
 
