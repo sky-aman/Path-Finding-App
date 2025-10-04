@@ -2,8 +2,8 @@ import { Play, RotateCcw } from "lucide-react";
 import useGrid from "../store/useGrid";
 import useIsRunning from "../store/useIsRunning";
 import useAlgorithm from "../store/useAlgorithm";
-import useBFS from "../store/useBFS";
-import useDFS from "../store/useDFS";
+import useBFS from "../hooks/useBFS";
+import useDFS from "../hooks/useDFS";
 import usePerformance from "../store/usePerformance";
 
 const ActionButtons = () => {

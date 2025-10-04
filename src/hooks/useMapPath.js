@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import useGrid from "./useGrid";
+import useGrid from "../store/useGrid";
 import { callInInterval } from "../utils/util";
 
 const useMapPath = () => {

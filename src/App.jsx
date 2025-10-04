@@ -1,9 +1,6 @@
-import { useState, useEffect } from 'react';
 import Header from './component/Header';
-import dijkstra from './utils/dijkstra';
 import { Grid } from './component/Grid';
 import Legend from './component/Legend';
-import useGrid from './store/useGrid';
 
 /**
  * The main component of the application.

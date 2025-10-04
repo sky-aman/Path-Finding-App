@@ -1,6 +1,6 @@
 import { callInInterval } from "../utils/util";
-import useGrid from "./useGrid";
-import useIsRunning from "./useIsRunning";
+import useGrid from "../store/useGrid";
+import useIsRunning from "../store/useIsRunning";
 import useMapPath from "./useMapPath";
 
 export default function useBFS() {
