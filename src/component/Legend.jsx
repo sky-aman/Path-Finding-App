@@ -1,6 +1,6 @@
 const Legend = () => {
 	return (
-		<div className="bg-white rounded-lg shadow-lg p-4 mt-6">
+		<div className="w-full flex-end max-w-7xl mx-auto bg-white rounded-lg shadow-lg p-4 mt-6">
 			<h3 className="font-semibold text-gray-800 mb-3">Legend</h3>
 			<div className="flex flex-wrap gap-4">
 				<div className="flex items-center gap-2">

@@ -1,25 +1,42 @@
-import React, { useState } from "react";
-import { getRowColFromElement } from "../utils/util";
-import useMode from "../store/useMode";
+import { useEffect, useRef } from "react";
 import useGrid from "../store/useGrid";
 import useGridHooks from "../hooks/useGridHooks";
 
 export function Grid() {
-	const [mouseDown, setMouseDown] = useState(false);
-    const gridState = useGrid(state => state.gridState || []);
-	const mode = useMode(state => state.mode);
 	const CELL_SIZE = 25;
-	
-	const { handleBoxClick, getCellColor, setGridColor } = useGridHooks();
+	const gridState = useGrid((state) => state.gridState || []);
+	const setDimensions = useGrid((state) => state.setDimensions || []);
+	const { handleBoxClick, getCellColor, handleMouseOver, setMouseDown } =
+		useGridHooks();
+	const gridRef = useRef();
 
-	const handleMouseOver = (event) => {
-		if(mode === "wall" && event.target.classList.contains("box-item") && mouseDown) {
-			const [x, y] = getRowColFromElement(event.target);
-			setGridColor(x, y);
+	useEffect(() => {
+		function handleResize() {
+			// Call your function here
+			if(gridRef.current) {
+				const el = gridRef.current;
+				const rect = el.getBoundingClientRect();
+				const style = getComputedStyle(el);
+				const paddingX = parseFloat(style.paddingLeft) + parseFloat(style.paddingRight);
+				const paddingY = parseFloat(style.paddingTop) + parseFloat(style.paddingBottom);
+				const borderX = parseFloat(style.borderLeftWidth) + parseFloat(style.borderRightWidth);
+				const borderY = parseFloat(style.borderTopWidth) + parseFloat(style.borderBottomWidth);
+
+				const innerWidth = rect.width - paddingX - borderX;
+				const innerHeight= rect.height - paddingY - borderY;
+				
+				setDimensions(Math.floor(innerHeight/CELL_SIZE), Math.floor(innerWidth/CELL_SIZE));
+			}
 		}
-	};
+		handleResize();
+		window.addEventListener("resize", handleResize);
+		return () => {
+			window.removeEventListener("resize", handleResize);
+		};
+	}, []);
+
 	return (
-		<div className="bg-white rounded-lg shadow-lg p-6 overflow-auto">
+		<div ref={gridRef} className="flex-1 w-full max-w-7xl mx-auto bg-white rounded-lg shadow-lg p-6 overflow-auto">
 			<div className="inline-block">
 				<div
 					className="inline-grid gap-0"
@@ -37,10 +54,10 @@ export function Grid() {
 								key={`${rowIdx}-${colIdx}`}
 								row={rowIdx}
 								col={colIdx}
-                                onClick={handleBoxClick}
+								onClick={handleBoxClick}
 								className={`${getCellColor(
-                                    rowIdx,
-                                    colIdx,
+									rowIdx,
+									colIdx,
 									cell
 								)} box-item cursor-pointer transition-colors duration-200 hover:opacity-80`}
 								style={{

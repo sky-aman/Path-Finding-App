@@ -5,9 +5,16 @@ const useGrid = create((set) => ({
 	start: null,
 	targets: new Set(),
 	setDimensions: (rows, cols) =>
-		set({
-			rows,
-			cols,
+		set(() => {
+			const newGrid = [];
+			for(let i = 0; i<rows; i++) {
+				const rows = [];
+				for(let j = 0; j<cols; j++) {
+					rows.push('empty');
+				}
+				newGrid.push([...rows]);
+			}
+			return { gridState: newGrid, start: null, targets: new Set() };
 		}),
 	setStart: (row, col) =>
 		set({

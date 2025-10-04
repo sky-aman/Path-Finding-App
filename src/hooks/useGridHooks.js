@@ -1,13 +1,15 @@
+import { useState } from "react";
 import useGrid from "../store/useGrid";
 import useMode from "../store/useMode";
 import { getRowColFromElement } from "../utils/util";
 
 const useGridHooks = () => {
+	const [mouseDown, setMouseDown] = useState(false);
 	const setGridStateCell = useGrid((state) => state.setGridStateCell);
 	const gridState = useGrid((state) => state.gridState);
 	const start = useGrid((state) => state.start);
 	const setStart = useGrid((state) => state.setStart);
-	const targets = useGrid(state => state.targets);
+	const targets = useGrid((state) => state.targets);
 	const setTargets = useGrid((state) => state.setTargets);
 	const mode = useMode((state) => state.mode);
 
@@ -54,7 +56,18 @@ const useGridHooks = () => {
 		setGridColor(x, y);
 	};
 
-	return { handleBoxClick, getCellColor, setGridColor };
+	const handleMouseOver = (event) => {
+		if (
+			mode === "wall" &&
+			event.target.classList.contains("box-item") &&
+			mouseDown
+		) {
+			const [x, y] = getRowColFromElement(event.target);
+			setGridColor(x, y);
+		}
+	};
+
+	return { handleBoxClick, getCellColor, handleMouseOver, setMouseDown };
 };
 
 export default useGridHooks;
