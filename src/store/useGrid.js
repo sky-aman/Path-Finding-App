@@ -38,7 +38,7 @@ const useGrid = create((set) => ({
 	resetGrid: () =>
 		set((state) => {
 			const newGrid = state.gridState.map((row) => row.map(() => "empty"));
-			return { gridState: newGrid };
+			return { gridState: newGrid, start: null, targets: new Set() };
 		}),
 	clearPath: () =>
 		set((state) => {

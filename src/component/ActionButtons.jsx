@@ -3,19 +3,31 @@ import useGrid from "../store/useGrid";
 import useIsRunning from "../store/useIsRunning";
 import useAlgorithm from "../store/useAlgorithm";
 import useBFS from "../store/useBFS";
+import useDFS from "../store/useDFS";
+import usePerformance from "../store/usePerformance";
 
 const ActionButtons = () => {
 	const resetGrid = useGrid((state) => state.resetGrid);
 	const isRunning = useIsRunning((state) => state.isRunning);
 	const algorithm = useAlgorithm((state) => state.algorithm);
-  const clearPath = useGrid(state => state.clearPath);
+	const clearPath = useGrid((state) => state.clearPath);
+	const setDuration = usePerformance(state => state.setDuration);
+	const resetDuration = usePerformance(state => state.resetDuration);
 
 	const { bfs } = useBFS();
+	const { dfs } = useDFS();
 
 	const runAlgorithm = () => {
+		resetDuration();
+		const startTime = performance.now();
 		if (algorithm === "bfs") {
 			bfs();
 		}
+		if (algorithm === "dfs") {
+			dfs();
+		}
+
+		setDuration((performance.now() - startTime).toFixed(2));
 	};
 	return (
 		<>

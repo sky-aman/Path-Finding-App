@@ -1,16 +1,18 @@
+import useAlgorithm from "../store/useAlgorithm";
+import usePerformance from "../store/usePerformance";
+
+
 const Stats = () => {
-	const stats = {
-		algorithm: "bfs",
-		time: 30000,
-	};
+	const algorithm = useAlgorithm(state => state.algorithm);
+	const duration = usePerformance(state => state.duration);
 
 	return (
 		<>
-			{stats ? (
+			{duration ? (
 				<div className="mt-4 bg-green-50 border border-green-200 rounded-lg p-3">
 					<p className="text-sm text-green-800">
-						<span className="font-semibold">{stats.algorithm}</span> completed
-						in <span className="font-semibold">{stats.time}ms</span>
+						<span className="font-semibold">{algorithm}</span> completed
+						in <span className="font-semibold">{duration} ms</span>
 					</p>
 				</div>
 			) : null}

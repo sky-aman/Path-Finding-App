@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import Header from './component/Header';
-import depthFirstSearch from './utils/depthFirstSearch';
 import dijkstra from './utils/dijkstra';
 import { Grid } from './component/Grid';
 import Legend from './component/Legend';
@@ -86,7 +85,6 @@ function App ()
     let fn;
     switch (algo)
     {
-      case 'dfs': fn = depthFirstSearch; break;
       case 'dks': fn = dijkstra; break;
       default: return;
     }
