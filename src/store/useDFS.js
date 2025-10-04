@@ -25,18 +25,18 @@ export default function useDFS() {
 				[0, 1],
 				[1, 0],
 			];
-			const queue = [];
-			queue.push([sx, sy, []]);
+			const stack = [];
+			stack.push([sx, sy, []]);
 			const visited = {};
-			let pathCount = 0;
+			let targetFound = 0;
 			visited[`${sx}-${sy}`] = true;
-			while (queue.length > 0) {
-				let [x, y, path] = queue.shift();
+			while (stack.length > 0) {
+				let [x, y, path] = stack.pop();
 				const current = `${x}-${y}`;
 				if (targets.has(current)) {
-					pathCount++;
+					targetFound++;
 					await mapPath(path);
-					if(targets.size == pathCount)
+					if(targets.size == targetFound)
 						break;
 				}
 				if (gridState[x][y] === 'empty') {
@@ -59,7 +59,7 @@ export default function useDFS() {
 							)
 						) {
 							visited[`${nx}-${ny}`] = true;
-							queue.push([nx, ny, [...path, [nx, ny]]]);
+							stack.push([nx, ny, [...path, [nx, ny]]]);
 						}
 					}
 				}

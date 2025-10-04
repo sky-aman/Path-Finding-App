@@ -20,6 +20,7 @@ const ActionButtons = () => {
 	const runAlgorithm = () => {
 		resetDuration();
 		const startTime = performance.now();
+		console.log(algorithm);
 		if (algorithm === "bfs") {
 			bfs();
 		}
