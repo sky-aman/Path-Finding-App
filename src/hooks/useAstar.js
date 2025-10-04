@@ -3,7 +3,13 @@ import useGrid from "../store/useGrid";
 import useIsRunning from "../store/useIsRunning";
 import useMapPath from "./useMapPath";
 
-export default function useDijkstra() {
+
+const getCost = (to, from) => {
+    const [x1, y1] = to;
+    const [x2, y2] = from;
+    return Math.abs(x1-x2) + Math.abs(y1-y2);
+}
+export default function useAStar() {
 	const start = useGrid((state) => state.start);
 	const gridState = useGrid((state) => state.gridState);
 	const setGridStateCell = useGrid((state) => state.setGridStateCell);
@@ -12,11 +18,12 @@ export default function useDijkstra() {
 	const stopRunning = useIsRunning((state) => state.stopRunning);
 	const { mapPath } = useMapPath();
     let pathCount = 0;
-
-	const dijkstra = async () => {
-		if (targets.size == 0 || !start) {
-			return;
+	const aStar = async () => {
+        if (targets.size == 0 || targets.size > 1 || !start) {
+            return;
 		}
+        const target = [...targets][0].split("-");
+        console.log(target);
 		try {
 			startRunning();
 			// write here dijkstra
@@ -62,7 +69,7 @@ export default function useDijkstra() {
 					if (nRow < 0 || nRow >= rows || nCol < 0 || nCol >= cols) continue;
 					if (gridState[nRow][nCol] === 'wall') continue;
 
-					const newDist = dist + 1; // unweighted grid
+					const newDist = dist + getCost(target, [nRow, nCol]); // unweighted grid
 					if (newDist < distance[nRow][nCol]) {
 						distance[nRow][nCol] = newDist;
 						queue.push([newDist, nRow, nCol, [...path, [nRow, nCol]]]);
@@ -75,5 +82,5 @@ export default function useDijkstra() {
 			stopRunning();
 		}
 	};
-	return { dijkstra };
+	return { aStar };
 }
