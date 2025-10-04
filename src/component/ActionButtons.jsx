@@ -5,6 +5,7 @@ import useAlgorithm from "../store/useAlgorithm";
 import useBFS from "../hooks/useBFS";
 import useDFS from "../hooks/useDFS";
 import usePerformance from "../store/usePerformance";
+import useDijkstra from "../hooks/useDijkstra";
 
 const ActionButtons = () => {
 	const resetGrid = useGrid((state) => state.resetGrid);
@@ -16,6 +17,7 @@ const ActionButtons = () => {
 
 	const { bfs } = useBFS();
 	const { dfs } = useDFS();
+	const { dijkstra } = useDijkstra();
 
 	const runAlgorithm = async () => {
 		resetDuration();
@@ -25,6 +27,9 @@ const ActionButtons = () => {
 		}
 		if (algorithm === "dfs") {
 			await dfs();
+		}
+		if (algorithm === "dijkstra") {
+			await dijkstra();
 		}
 
 		setDuration((performance.now() - startTime).toFixed(2));
