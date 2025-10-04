@@ -25,7 +25,7 @@ export function Grid() {
 				const innerWidth = rect.width - paddingX - borderX;
 				const innerHeight= rect.height - paddingY - borderY;
 				
-				setDimensions(Math.floor(innerHeight/CELL_SIZE), Math.floor(innerWidth/CELL_SIZE));
+				setDimensions(Math.floor(innerHeight/CELL_SIZE) || 1, Math.floor(innerWidth/CELL_SIZE) || 1);
 			}
 		}
 		handleResize();
