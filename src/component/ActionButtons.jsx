@@ -17,15 +17,14 @@ const ActionButtons = () => {
 	const { bfs } = useBFS();
 	const { dfs } = useDFS();
 
-	const runAlgorithm = () => {
+	const runAlgorithm = async () => {
 		resetDuration();
 		const startTime = performance.now();
-		console.log(algorithm);
 		if (algorithm === "bfs") {
-			bfs();
+			await bfs();
 		}
 		if (algorithm === "dfs") {
-			dfs();
+			await dfs();
 		}
 
 		setDuration((performance.now() - startTime).toFixed(2));
