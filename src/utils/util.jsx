@@ -7,5 +7,5 @@ export const getRowColFromElement = element =>
 
 export const callInInterval = (cb, interval) =>
 {
-    setTimeout(cb, interval);
+    return new Promise((resolve) => setTimeout(() => resolve(cb()), interval));
 }

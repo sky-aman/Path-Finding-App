@@ -1,52 +1,24 @@
-import React, {useEffect, useRef, useState} from 'react'
-import { Navbar, Button, Form, Container } from 'react-bootstrap';
 
-export default function Header ({ updateGridDimension, resetGrid, clicks, onStartAlgo, createWalls })
-{
-    const [algoSelect, setAlgoSelect] = useState('dks');
-    const navbarRef = useRef(null);
-    useEffect(() =>
-    {
-        function handleResize ()
-        {
-            // Call your function here
-            if (navbarRef.current)
-            {
-                const height = navbarRef.current.clientHeight;
-                const gridHeight = window.innerHeight - height;
-                updateGridDimension(gridHeight, Math.floor(gridHeight / 24), Math.ceil(window.outerWidth / 23));
-            }
-        }
-        handleResize();
-        window.addEventListener('resize', handleResize);
-        return () =>
-        {
-            window.removeEventListener('resize', handleResize);
-        };
-    }, [updateGridDimension]);
+import React, { useEffect, useRef, useState } from "react";
+import ShowHelp from "./ShowHelp";
+import Controls from "./Controls";
+import AlgorithmSelection from "./AlgorithmSelection";
+import ActionButtons from "./ActionButtons";
+import Stats from "./Stats";
 
-    const handleSelectChange = (event) =>
-    {
-        setAlgoSelect(event.target.value);
-    };
+export default function Header() {
 
-    return (
-        <Navbar bg="info" expand="lg" ref={navbarRef}>
-            <Container fluid>
-                <Navbar.Brand href="#home">My App</Navbar.Brand>
-                <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                <Navbar.Collapse id="basic-navbar-nav">
-                    <Navbar.Text className="m-0 h-100">Select an algorithm</Navbar.Text>
-                    <Form.Select className="w-25 ms-2" value={algoSelect} onChange={handleSelectChange}>
-                        <option value="bfs">Breadth First Search</option>
-                        <option value="dfs">Depth First Search</option>
-                        <option value="dks">Dijkstra Algorithm</option>
-                    </Form.Select>
-                </Navbar.Collapse>
-                <Button variant="primary" onClick={() => createWalls()}>Create walls</Button>
-                <Button variant="primary" className={`${clicks < 2 ? 'disabled' : ''} ms-2`} onClick={() => onStartAlgo(algoSelect)}>Run</Button>
-                <Button variant="secondary" className="ms-2" onClick={() => resetGrid()}>Reset</Button>
-            </Container>
-        </Navbar>
-  )
+	return (
+		<div className="max-w-7xl mx-auto">
+			<div className="bg-white rounded-lg shadow-lg p-6 mb-6">
+				<ShowHelp />
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2">
+                    <Controls />
+                    <AlgorithmSelection />
+                    <ActionButtons />
+                </div>
+                <Stats />
+			</div>
+		</div>
+	);
 }
