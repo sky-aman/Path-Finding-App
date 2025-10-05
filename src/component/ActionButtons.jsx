@@ -15,8 +15,8 @@ const ActionButtons = () => {
 	const isRunning = useIsRunning((state) => state.isRunning);
 	const algorithm = useAlgorithm((state) => state.algorithm);
 	const clearPath = useGrid((state) => state.clearPath);
-	const setDuration = usePerformance(state => state.setDuration);
-	const resetDuration = usePerformance(state => state.resetDuration);
+	const setDuration = usePerformance((state) => state.setDuration);
+	const resetDuration = usePerformance((state) => state.resetDuration);
 
 	const { bfs } = useBFS();
 	const { dfs } = useDFS();
@@ -30,12 +30,18 @@ const ActionButtons = () => {
 		const startTime = performance.now();
 		let algo;
 		switch (algorithm) {
-			case "bfs": algo = bfs;
-			case "dfs": algo = dfs;
-			case "dijkstra": algo = dijkstra;
-			case "a-star": algo = aStar;
-			case "bi-directinal-a-star": algo = biDirectionalAStar;
-			case "bi-directional": algo = biDirectional;
+			case "bfs":
+				algo = bfs;
+			case "dfs":
+				algo = dfs;
+			case "dijkstra":
+				algo = dijkstra;
+			case "a-star":
+				algo = aStar;
+			case "bi-directinal-a-star":
+				algo = biDirectionalAStar;
+			case "bi-directional":
+				algo = biDirectional;
 		}
 		algo();
 		setDuration((performance.now() - startTime).toFixed(2));
