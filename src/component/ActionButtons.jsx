@@ -44,7 +44,6 @@ const ActionButtons = () => {
 		}
 		const startTime = performance.now();
 		if (algo) {
-			console.log(algorithm);
 			await algo();
 		}
 		setDuration((performance.now() - startTime).toFixed(2));

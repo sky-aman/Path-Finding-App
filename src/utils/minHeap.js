@@ -15,6 +15,7 @@ export default function MinHeap(initialArr = []) {
             const tmp = this.arr[pos];
             this.arr[pos] = this.arr[minPos];
             this.arr[minPos] = tmp;
+            pos = minPos;
         }
     }
 
