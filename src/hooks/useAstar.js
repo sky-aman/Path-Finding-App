@@ -3,13 +3,9 @@ import useGrid from "../store/useGrid";
 import useIsRunning from "../store/useIsRunning";
 import useMapPath from "./useMapPath";
 import MinHeap from "../utils/minHeap";
+import manhattanDistance from '../utils/manhattan';
 
 
-const getCost = (to, from) => {
-    const [x1, y1] = to;
-    const [x2, y2] = from;
-    return Math.abs(x1-x2) + Math.abs(y1-y2);
-}
 export default function useAStar() {
 	const start = useGrid((state) => state.start);
 	const gridState = useGrid((state) => state.gridState);
@@ -68,7 +64,7 @@ export default function useAStar() {
 					if (nRow < 0 || nRow >= rows || nCol < 0 || nCol >= cols) continue;
 					if (gridState[nRow][nCol] === 'wall') continue;
 
-					const newDist = dist + getCost(target, [nRow, nCol]); // unweighted grid
+					const newDist = dist + manhattanDistance(target, [nRow, nCol]); // unweighted grid
 					if (newDist < distance[nRow][nCol]) {
 						distance[nRow][nCol] = newDist;
 						priorityQ.heappush([newDist, nRow, nCol, [...path, [nRow, nCol]]]);

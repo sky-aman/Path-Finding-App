@@ -7,6 +7,8 @@ import useDFS from "../hooks/useDFS";
 import usePerformance from "../store/usePerformance";
 import useDijkstra from "../hooks/useDijkstra";
 import useAStar from "../hooks/useAstar";
+import useBiDirectional from "../hooks/useBiDirectional";
+import useBiDirectionalAStar from "../hooks/useBiDirectionalAstar";
 
 const ActionButtons = () => {
 	const resetGrid = useGrid((state) => state.resetGrid);
@@ -20,23 +22,22 @@ const ActionButtons = () => {
 	const { dfs } = useDFS();
 	const { dijkstra } = useDijkstra();
 	const { aStar } = useAStar();
+	const { biDirectionalAStar } = useBiDirectionalAStar();
+	const { biDirectional } = useBiDirectional();
 
 	const runAlgorithm = async () => {
 		resetDuration();
 		const startTime = performance.now();
-		if (algorithm === "bfs") {
-			await bfs();
+		let algo;
+		switch (algorithm) {
+			case "bfs": algo = bfs;
+			case "dfs": algo = dfs;
+			case "dijkstra": algo = dijkstra;
+			case "a-star": algo = aStar;
+			case "bi-directinal-a-star": algo = biDirectionalAStar;
+			case "bi-directional": algo = biDirectional;
 		}
-		if (algorithm === "dfs") {
-			await dfs();
-		}
-		if (algorithm === "dijkstra") {
-			await dijkstra();
-		}
-		if (algorithm === "a-star") {
-			await aStar();
-		}
-
+		algo();
 		setDuration((performance.now() - startTime).toFixed(2));
 	};
 	return (
