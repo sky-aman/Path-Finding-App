@@ -15,7 +15,7 @@ export function Grid() {
 	return (
 		<div
 			ref={gridRef}
-			className="flex-1 w-full max-w-7xl mx-auto bg-white rounded-lg shadow-lg p-6 overflow-auto"
+			className="flex-1 w-full max-w-8xl mx-auto bg-white rounded-lg shadow-lg p-6 overflow-auto"
 		>
 			<div className="inline-block">
 				<div

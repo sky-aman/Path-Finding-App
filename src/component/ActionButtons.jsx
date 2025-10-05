@@ -1,4 +1,4 @@
-import { Play, RotateCcw } from "lucide-react";
+import { Grid3x3, Play, RotateCcw } from "lucide-react";
 import useGrid from "../store/useGrid";
 import useIsRunning from "../store/useIsRunning";
 import useAlgorithm from "../store/useAlgorithm";
@@ -9,6 +9,7 @@ import useDijkstra from "../hooks/useDijkstra";
 import useAStar from "../hooks/useAstar";
 import useBiDirectional from "../hooks/useBiDirectional";
 import useBiDirectionalAStar from "../hooks/useBiDirectionalAStar";
+import useGenerateMaze from "../hooks/useGenerateMaze";
 
 const ActionButtons = () => {
 	const resetGrid = useGrid((state) => state.resetGrid);
@@ -17,6 +18,7 @@ const ActionButtons = () => {
 	const clearPath = useGrid((state) => state.clearPath);
 	const setDuration = usePerformance((state) => state.setDuration);
 	const resetDuration = usePerformance((state) => state.resetDuration);
+	const { isGeneratingMaze, generateMaze } = useGenerateMaze();
 
 	const { bfs } = useBFS();
 	const { dfs } = useDFS();
@@ -50,11 +52,11 @@ const ActionButtons = () => {
 	};
 	return (
 		<>
-			<div className="flex items-end gap-2">
+			<div className="flex gap-2 items-end">
 				<button
 					onClick={runAlgorithm}
 					disabled={isRunning}
-					className="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium shadow-lg hover:shadow-xl transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+					className="flex-1 text-nowrap bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium shadow-lg hover:shadow-xl transition-all disabled:opacity-50 flex items-center justify-center gap-2"
 				>
 					<Play size={20} />
 					Run
@@ -62,17 +64,25 @@ const ActionButtons = () => {
 				<button
 					onClick={clearPath}
 					disabled={isRunning}
-					className="px-4 py-2 bg-yellow-500 hover:bg-yellow-600 text-white rounded-lg font-medium transition-all disabled:opacity-50"
+					className="text-nowrap px-4 py-2 bg-yellow-500 hover:bg-yellow-600 text-white rounded-lg font-medium transition-all disabled:opacity-50"
 				>
 					Clear Path
 				</button>
 			</div>
 
-			<div className="flex items-end">
+			<div className="flex gap-2 items-end">
+				<button
+					onClick={generateMaze}
+					disabled={isRunning || isGeneratingMaze}
+					className="flex-1 text-nowrap bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg font-medium shadow-lg hover:shadow-xl transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+				>
+					<Grid3x3 size={20} />
+					{isGeneratingMaze ? 'Generating...' : 'Generate Maze'}
+				</button>
 				<button
 					onClick={resetGrid}
 					disabled={isRunning}
-					className="w-full bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-medium shadow-lg hover:shadow-xl transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+					className="flex-1 text-nowrap bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-medium shadow-lg hover:shadow-xl transition-all disabled:opacity-50 flex items-center justify-center gap-2"
 				>
 					<RotateCcw size={20} />
 					Reset Grid

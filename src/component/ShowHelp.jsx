@@ -22,6 +22,7 @@ const ShowHelp = () => {
             <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
                 <h3 className="font-semibold text-blue-900 mb-2">How to use:</h3>
                 <ol className="text-sm text-blue-800 space-y-1 list-decimal list-inside">
+                    <li>Click <span className="font-semibold">"Generate Maze"</span> for an automatic maze, or draw your own</li>
                     <li>Select a mode below and click on the grid to place items</li>
                     <li>
                         Set one{" "}

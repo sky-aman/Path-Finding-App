@@ -7,10 +7,10 @@ import Stats from "./Stats";
 
 export default function Header() {
 	return (
-		<div className="w-full max-w-7xl mx-auto">
+		<div className="w-full max-w-8xl mx-auto">
 			<div className="bg-white rounded-lg shadow-lg p-6 mb-6">
 				<ShowHelp />
-				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2">
+				<div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-2">
 					<Controls />
 					<AlgorithmSelection />
 					<ActionButtons />
