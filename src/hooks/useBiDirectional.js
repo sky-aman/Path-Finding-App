@@ -13,7 +13,6 @@ export default function useBiDirectional() {
 	const { mapPath } = useMapPath();
 
 	const biDirectional = async () => {
-		debugger;
 		if (targets.size == 0 || targets.size > 1 || !start) {
 			return;
 		}

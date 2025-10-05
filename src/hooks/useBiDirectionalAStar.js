@@ -36,7 +36,7 @@ export default function useBiDirectionalAStar() {
 			const endVisited = {};
 			startVisited[`${sx}-${sy}`] = [];
 			endVisited[`${tx}-${ty}`] = [];
-			while (startQ.length > 0 && endQ.length > 0) {
+			while (startQ.length() > 0 && endQ.length() > 0) {
 				let [startDist, startX, startY] = startQ.heappop();
 				let [endDist, endX, endY] = endQ.heappop();
 				const startKey = `${startX}-${startY}`;

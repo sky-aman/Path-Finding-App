@@ -27,23 +27,26 @@ const ActionButtons = () => {
 
 	const runAlgorithm = async () => {
 		resetDuration();
-		const startTime = performance.now();
 		let algo;
 		switch (algorithm) {
 			case "bfs":
-				algo = bfs;
+				algo = bfs; break;
 			case "dfs":
-				algo = dfs;
+				algo = dfs; break;
 			case "dijkstra":
-				algo = dijkstra;
+				algo = dijkstra; break;
 			case "a-star":
-				algo = aStar;
-			case "bi-directinal-a-star":
-				algo = biDirectionalAStar;
+				algo = aStar; break;
+			case "bi-directional-a-star":
+				algo = biDirectionalAStar; break;
 			case "bi-directional":
-				algo = biDirectional;
+				algo = biDirectional; break;
 		}
-		algo();
+		const startTime = performance.now();
+		if (algo) {
+			console.log(algorithm);
+			await algo();
+		}
 		setDuration((performance.now() - startTime).toFixed(2));
 	};
 	return (

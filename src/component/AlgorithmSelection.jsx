@@ -19,7 +19,7 @@ const AlgorithmSelection = () => {
 				<option value="dfs">Depth First Search</option>
 				<option value="dijkstra">Dijkstra's Algorithm</option>
 				<option value="a-star">A* (only one target allowed)</option>
-				<option value="bi-directinal-a-star">Bi-Directional A* (only one target allowed)</option>
+				<option value="bi-directional-a-star">Bi-Directional A* (only one target allowed)</option>
 				<option value="bi-directional">Bi-Directional (only one target allowed)</option>
 			</select>
 		</div>
