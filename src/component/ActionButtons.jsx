@@ -8,7 +8,7 @@ import usePerformance from "../store/usePerformance";
 import useDijkstra from "../hooks/useDijkstra";
 import useAStar from "../hooks/useAstar";
 import useBiDirectional from "../hooks/useBiDirectional";
-import useBiDirectionalAStar from "../hooks/useBiDirectionalAstar";
+import useBiDirectionalAStar from "../hooks/useBiDirectionalAStar";
 
 const ActionButtons = () => {
 	const resetGrid = useGrid((state) => state.resetGrid);
