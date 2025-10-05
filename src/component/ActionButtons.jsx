@@ -10,8 +10,10 @@ import useAStar from "../hooks/useAstar";
 import useBiDirectional from "../hooks/useBiDirectional";
 import useBiDirectionalAStar from "../hooks/useBiDirectionalAStar";
 import useGenerateMaze from "../hooks/useGenerateMaze";
+import useNotification from "../hooks/useNotification";
 
 const ActionButtons = () => {
+	const { showNotification } = useNotification();
 	const resetGrid = useGrid((state) => state.resetGrid);
 	const isRunning = useIsRunning((state) => state.isRunning);
 	const algorithm = useAlgorithm((state) => state.algorithm);
@@ -19,6 +21,8 @@ const ActionButtons = () => {
 	const setDuration = usePerformance((state) => state.setDuration);
 	const resetDuration = usePerformance((state) => state.resetDuration);
 	const { isGeneratingMaze, generateMaze } = useGenerateMaze();
+	const targets = useGrid((state) => state.targets);
+	const start = useGrid((state) => state.start);
 
 	const { bfs } = useBFS();
 	const { dfs } = useDFS();
@@ -27,29 +31,57 @@ const ActionButtons = () => {
 	const { biDirectionalAStar } = useBiDirectionalAStar();
 	const { biDirectional } = useBiDirectional();
 
+	const checkTargetsOnlyOne = () => {
+		if (targets.size == 1) {
+			return;
+		}
+		throw new Error(`Please select only one target for ${algorithm.toUpperCase()}`);
+	}
+
 	const runAlgorithm = async () => {
 		resetDuration();
+		if(targets.size == 0 || !start) {
+			showNotification('Please set a start point (green) and at least one target point (red)!', 'error');
+			return;
+		}
+
 		let algo;
-		switch (algorithm) {
-			case "bfs":
-				algo = bfs; break;
-			case "dfs":
-				algo = dfs; break;
-			case "dijkstra":
-				algo = dijkstra; break;
-			case "a-star":
-				algo = aStar; break;
-			case "bi-directional-a-star":
-				algo = biDirectionalAStar; break;
-			case "bi-directional":
-				algo = biDirectional; break;
+		try {
+			switch (algorithm) {
+				case "bfs":
+					algo = bfs;
+					break;
+				case "dfs":
+					algo = dfs;
+					break;
+				case "dijkstra":
+					algo = dijkstra;
+					break;
+				case "a-star":
+					checkTargetsOnlyOne();
+					algo = aStar;
+					break;
+				case "bi-directional-a-star":
+					checkTargetsOnlyOne();
+					algo = biDirectionalAStar;
+					break;
+				case "bi-directional":
+					checkTargetsOnlyOne();
+					algo = biDirectional;
+					break;
+			}
+			const startTime = performance.now();
+			if (algo) {
+				await algo();
+			}
+			setDuration((performance.now() - startTime).toFixed(2));
+			showNotification(`${algorithm.toUpperCase()} completed successfully!`, 'success');
+		} catch (err) {
+			showNotification(err.message || 'An error occurred during pathfinding', 'error');
+			console.log(err.message);
 		}
-		const startTime = performance.now();
-		if (algo) {
-			await algo();
-		}
-		setDuration((performance.now() - startTime).toFixed(2));
 	};
+
 	return (
 		<>
 			<div className="flex gap-2 items-end">
@@ -77,7 +109,7 @@ const ActionButtons = () => {
 					className="flex-1 text-nowrap bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg font-medium shadow-lg hover:shadow-xl transition-all disabled:opacity-50 flex items-center justify-center gap-2"
 				>
 					<Grid3x3 size={20} />
-					{isGeneratingMaze ? 'Generating...' : 'Generate Maze'}
+					{isGeneratingMaze ? "Generating..." : "Generate Maze"}
 				</button>
 				<button
 					onClick={resetGrid}
