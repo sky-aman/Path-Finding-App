@@ -13,12 +13,12 @@ export default function useBiDirectional() {
 	const { mapPath } = useMapPath();
 
 	const biDirectional = async () => {
-        debugger;
+		debugger;
 		if (targets.size == 0 || targets.size > 1 || !start) {
-            return;
+			return;
 		}
-        const target = [...targets][0].split("-").map(ele => Number(ele));
-        const [tx, ty] = target;
+		const target = [...targets][0].split("-").map((ele) => Number(ele));
+		const [tx, ty] = target;
 		try {
 			startRunning();
 			const [sx, sy] = start;
@@ -30,7 +30,7 @@ export default function useBiDirectional() {
 			];
 			const startQ = [[sx, sy]];
 			const endQ = [[tx, ty]];
-            
+
 			const startVisited = {};
 			const endVisited = {};
 			startVisited[`${sx}-${sy}`] = [];
@@ -41,17 +41,23 @@ export default function useBiDirectional() {
 				const startKey = `${startX}-${startY}`;
 				const endKey = `${endX}-${endY}`;
 				if (startKey in endVisited) {
-                    await mapPath([...startVisited[startKey], ...endVisited[startKey]])
-                    break;
+					await mapPath([...startVisited[startKey], ...endVisited[startKey]]);
+					break;
 				}
 				if (endKey in startVisited) {
-                    await mapPath([...startVisited[endKey], ...endVisited[endKey]])
-                    break;
+					await mapPath([...startVisited[endKey], ...endVisited[endKey]]);
+					break;
 				}
-                if (gridState[startX][startY] === "empty")
-                    await callInInterval(() => setGridStateCell(startX, startY, "visited"), 10);
-                if (gridState[endX][endY] === "empty")
-                    await callInInterval(() => setGridStateCell(endX, endY, "visited"), 10);
+				if (gridState[startX][startY] === "empty")
+					await callInInterval(
+						() => setGridStateCell(startX, startY, "visited"),
+						10
+					);
+				if (gridState[endX][endY] === "empty")
+					await callInInterval(
+						() => setGridStateCell(endX, endY, "visited"),
+						10
+					);
 
 				for (let r of range) {
 					const snx = startX + r[0];
@@ -71,7 +77,10 @@ export default function useBiDirectional() {
 								(snx === sx && sny == sy)
 							)
 						) {
-							startVisited[`${snx}-${sny}`] = [...startVisited[startKey], [snx, sny]];
+							startVisited[`${snx}-${sny}`] = [
+								...startVisited[startKey],
+								[snx, sny],
+							];
 							startQ.push([snx, sny]);
 						}
 					}
