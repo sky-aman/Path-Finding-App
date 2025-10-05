@@ -2,6 +2,7 @@ import { callInInterval } from "../utils/util";
 import useGrid from "../store/useGrid";
 import useIsRunning from "../store/useIsRunning";
 import useMapPath from "./useMapPath";
+import MinHeap from "../utils/minHeap";
 
 export default function useDijkstra() {
 	const start = useGrid((state) => state.start);
@@ -28,14 +29,13 @@ export default function useDijkstra() {
 			const distance = new Array(rows)
 				.fill(Infinity)
 				.map(() => new Array(cols).fill(Infinity));
-			const queue = [];
+			const priorityQ = new MinHeap([]);
 
 			distance[start[0]][start[1]] = 0;
-			queue.push([0, ...start, []]); // [dist, row, col, path]
+			priorityQ.heappush([0, ...start, []]); // [dist, row, col, path]
 
-			while (queue.length) {
-				queue.sort((a, b) => a[0] - b[0]);
-				const [ dist, row, col, path ] = queue.shift();
+			while (priorityQ.length() > 0) {
+				const [ dist, row, col, path ] = priorityQ.heappop();
 				if (visited[row][col]) {
 					continue;
 				}
@@ -65,7 +65,7 @@ export default function useDijkstra() {
 					const newDist = dist + 1; // unweighted grid
 					if (newDist < distance[nRow][nCol]) {
 						distance[nRow][nCol] = newDist;
-						queue.push([newDist, nRow, nCol, [...path, [nRow, nCol]]]);
+						priorityQ.heappush([newDist, nRow, nCol, [...path, [nRow, nCol]]]);
 					}
 				}
 			}
